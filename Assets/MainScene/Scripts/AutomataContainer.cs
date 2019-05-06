@@ -20,8 +20,14 @@ public class AutomataContainer : MonoBehaviour
     [SerializeField]
     private float cellObjSpacing = 1.1f;
 
+    [SerializeField]
+    private float tickInterval = 1.0f;
+    private float tickAccumulator = 0.0f;
+
     private MusicAutomataSystem system;
     private CellAppearance[,] cellAppearances;
+
+    private bool isPlaying = false;
 
     // Start is called before the first frame update
     void Start()
@@ -67,6 +73,23 @@ public class AutomataContainer : MonoBehaviour
             system.Restart();
             Debug.Log("GenerationCount = " + system.GenerationCount, this);
             system.ForEachCell(SetCellAppearance);
+        }
+        else if (Input.GetKeyDown(KeyCode.Space))
+        {
+            isPlaying = !isPlaying;
+            tickAccumulator = 1.0f;
+        }
+
+        if (isPlaying)
+        {
+            if (tickAccumulator > tickInterval)
+            {
+                tickAccumulator -= tickInterval;
+                system.AdvanceGeneration();
+                Debug.Log("GenerationCount = " + system.GenerationCount, this);
+                system.ForEachCell(SetCellAppearance);
+            }
+            tickAccumulator += Time.deltaTime;
         }
     }
 

@@ -246,6 +246,7 @@ MonoBehaviour:
   cellPrefab: {fileID: 6602503421542232600, guid: 855510f03f13d314687b7fd187ea13ca,
     type: 3}
   cellObjSpacing: 1.1
+  tickInterval: 0.5
 --- !u!4 &1193655817
 Transform:
   m_ObjectHideFlags: 0
