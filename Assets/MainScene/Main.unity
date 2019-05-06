@@ -240,13 +240,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f5735f52ee9c2943917a389c4015ad2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 16
-  height: 16
+  width: 32
+  height: 32
   maxValue: 4
   cellPrefab: {fileID: 6602503421542232600, guid: 855510f03f13d314687b7fd187ea13ca,
     type: 3}
   cellObjSpacing: 1.1
-  tickInterval: 0.5
+  tickInterval: 0.12
 --- !u!4 &1193655817
 Transform:
   m_ObjectHideFlags: 0
@@ -314,7 +314,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 9.5
+  orthographic size: 19
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -338,7 +338,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1658474137}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8, y: 8, z: -10}
+  m_LocalPosition: {x: 17, y: 17, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
