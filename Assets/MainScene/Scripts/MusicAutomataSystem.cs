@@ -40,38 +40,34 @@ public class MusicAutomataSystem
                 int by = y == 0 ? h - 1 : y - 1;
                 int ty = y == h - 1 ? 0 : y + 1;
 
-                // count neighbors that have current cell value + 1
-                int dv = cells[x, y] + 1;
+                // count neighbors that have current cell value > 0
+                int dv = 0;
                 int count = 0;
                 {
-                    if (cells[lx, ty] == dv) ++count;
-                    if (cells[x, ty] == dv) ++count;
-                    if (cells[rx, ty] == dv) ++count;
-                    if (cells[lx, y] == dv) ++count;
-                    if (cells[rx, y] == dv) ++count;
-                    if (cells[lx, by] == dv) ++count;
-                    if (cells[x, by] == dv) ++count;
-                    if (cells[rx, by] == dv) ++count;
+                    if (cells[lx, ty] > dv) ++count;
+                    if (cells[x, ty] > dv) ++count;
+                    if (cells[rx, ty] > dv) ++count;
+                    if (cells[lx, y] > dv) ++count;
+                    if (cells[rx, y] > dv) ++count;
+                    if (cells[lx, by] > dv) ++count;
+                    if (cells[x, by] > dv) ++count;
+                    if (cells[rx, by] > dv) ++count;
                 }
 
                 // set next cell value
-                // cell with two or three neighbours stays at current value
-                // cell with four neighbours increments by 1, clamped at max
-                // cell with five neighbours increments by 2, clamped at max
+                // cell with two neighbours stays at current value
+                // cell with three neighbours increments by 1
+                // cells that exceed max are set to 0;
                 // otherwise the cell decrements, clamped at 0
                 int cv = cells[x, y];
-                if (count == 2 || count == 3)
+                if (count == 2)
                 {
                     nextCells[x, y] = cv;
                 }
-                else if (count == 4)
+                else if (count == 3)
                 {
-                    if (cv < max) nextCells[x, y] = cv + 1;
-                }
-                else if (count == 5)
-                {
-                    if (cv < max) nextCells[x, y] = cv + 1;
-                    if (cv < max) nextCells[x, y] = cv + 1;
+                    cv += 1;
+                    nextCells[x, y] = cv > max ? 0 : cv;
                 }
                 else
                 {
