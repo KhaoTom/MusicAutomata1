@@ -77,7 +77,6 @@ public class AutomataContainer : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Space))
         {
             isPlaying = !isPlaying;
-            tickAccumulator = 1.0f;
         }
 
         if (isPlaying)
