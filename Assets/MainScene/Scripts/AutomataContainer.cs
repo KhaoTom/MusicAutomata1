@@ -56,9 +56,15 @@ public class AutomataContainer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetKeyDown(KeyCode.Return))
         {
             system.AdvanceGeneration();
+            Debug.Log("GenerationCount = " + system.GenerationCount, this);
+            system.ForEachCell(SetCellAppearance);
+        }
+        else if (Input.GetKeyDown(KeyCode.Backspace))
+        {
+            system.Restart();
             Debug.Log("GenerationCount = " + system.GenerationCount, this);
             system.ForEachCell(SetCellAppearance);
         }

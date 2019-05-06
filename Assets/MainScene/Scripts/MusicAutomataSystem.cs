@@ -24,6 +24,18 @@ public class MusicAutomataSystem
         return cells[x, y];
     }
 
+    public void Restart()
+    {
+        generationCount = 0;
+        for (int x = 0; x < w; x++)
+        {
+            for (int y = 0; y < h; y++)
+            {
+                cells[x, y] = 0;
+            }
+        }
+    }
+
     public void AdvanceGeneration()
     {
         ++generationCount;
