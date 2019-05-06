@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Events;
 
 public class AutomataContainer : MonoBehaviour
 {
+    [System.Serializable]
+    public class IntEvent01 : UnityEvent<int> { }
+
     [SerializeField]
     private int width = 16;
 
@@ -22,6 +25,10 @@ public class AutomataContainer : MonoBehaviour
 
     [SerializeField]
     private float tickInterval = 1.0f;
+
+    [SerializeField]
+    private IntEvent01 onGenerationCountChanged;
+
     private float tickAccumulator = 0.0f;
 
     private MusicAutomataSystem system;
@@ -65,13 +72,13 @@ public class AutomataContainer : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Return))
         {
             system.AdvanceGeneration();
-            Debug.Log("GenerationCount = " + system.GenerationCount, this);
+            onGenerationCountChanged.Invoke(system.GenerationCount);
             system.ForEachCell(SetCellAppearance);
         }
         else if (Input.GetKeyDown(KeyCode.Backspace))
         {
             system.Restart();
-            Debug.Log("GenerationCount = " + system.GenerationCount, this);
+            onGenerationCountChanged.Invoke(system.GenerationCount);
             system.ForEachCell(SetCellAppearance);
         }
         else if (Input.GetKeyDown(KeyCode.Space))
@@ -85,7 +92,7 @@ public class AutomataContainer : MonoBehaviour
             {
                 tickAccumulator -= tickInterval;
                 system.AdvanceGeneration();
-                Debug.Log("GenerationCount = " + system.GenerationCount, this);
+                onGenerationCountChanged.Invoke(system.GenerationCount);
                 system.ForEachCell(SetCellAppearance);
             }
             tickAccumulator += Time.deltaTime;
