@@ -124,6 +124,9 @@ public class AutomataContainer : MonoBehaviour
             system.Restart();
             onGenerationCountChanged.Invoke(system.GenerationCount);
             system.ForEachCell(SetCellAppearance);
+            step = 0;
+            onStepChanged.Invoke(step);
+            tickAccumulator = 0.0f;
         }
         else if (Input.GetKeyDown(KeyCode.Space))
         {
