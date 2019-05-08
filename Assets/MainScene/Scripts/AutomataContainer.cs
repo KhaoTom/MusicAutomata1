@@ -27,7 +27,7 @@ public class AutomataContainer : MonoBehaviour
     private float tickInterval = 1.0f;
 
     [SerializeField]
-    private IntEvent01 onGenerationCountChanged;
+    private IntEvent01 onGenerationCountChanged = null;
 
     private float tickAccumulator = 0.0f;
 

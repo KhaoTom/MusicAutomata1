@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class HUD : MonoBehaviour
 {
     [SerializeField]
-    private Text genCountText;
+    private Text genCountText = null;
 
     public void UpdateGenCount(int amount)
     {
