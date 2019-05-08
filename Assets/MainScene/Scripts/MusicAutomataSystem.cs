@@ -18,6 +18,11 @@ public class MusicAutomataSystem
         cells = new int[w, h];
     }
 
+    public int GetCell(int x, int y)
+    {
+        return cells[x, y];
+    }
+
     public int IncrementCell(int x, int y)
     {
         if (cells[x, y] < max) cells[x, y] += 1;

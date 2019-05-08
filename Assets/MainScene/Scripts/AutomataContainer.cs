@@ -27,14 +27,33 @@ public class AutomataContainer : MonoBehaviour
     private float tickInterval = 1.0f;
 
     [SerializeField]
+    AudioController audioController = null;
+
+    [SerializeField]
     private IntEvent01 onGenerationCountChanged = null;
 
+    [SerializeField]
+    private IntEvent01 onStepChanged = null;
+
     private float tickAccumulator = 0.0f;
+    private int step = 0;
 
     private MusicAutomataSystem system;
     private CellAppearance[,] cellAppearances;
 
     private bool isPlaying = false;
+
+    private struct ColumnParameter
+    {
+        public int channel;
+        public int param;
+        public ColumnParameter(int channel, int param)
+        {
+            this.channel = channel;
+            this.param = param;
+        }
+    }
+    private ColumnParameter[] colParams;
 
     // Start is called before the first frame update
     void Start()
@@ -56,6 +75,31 @@ public class AutomataContainer : MonoBehaviour
                     g.GetComponent<CellMouseDownEventTrigger>().SetupTrigger(IncrementCell, x, y);
                 }
             }
+        }
+
+        // create params
+        {
+            colParams = new ColumnParameter[width];
+            for (int x = 0; x < width; x++)
+            {
+                new ColumnParameter();
+            }
+
+            // TODO: remove this hardcoded nightmare
+            colParams[1] = new ColumnParameter(0, 1);
+            colParams[3] = new ColumnParameter(0, 2);
+
+            colParams[6] = new ColumnParameter(1, 1);
+            colParams[8] = new ColumnParameter(1, 2);
+
+            colParams[11] = new ColumnParameter(2, 1);
+            colParams[13] = new ColumnParameter(2, 2);
+
+            colParams[16] = new ColumnParameter(3, 1);
+            colParams[18] = new ColumnParameter(3, 2);
+
+            colParams[21] = new ColumnParameter(4, 1);
+            colParams[23] = new ColumnParameter(4, 2);
         }
     }
 
@@ -83,7 +127,16 @@ public class AutomataContainer : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Space))
         {
-            isPlaying = !isPlaying;
+            if (isPlaying)
+            {
+                isPlaying = false;
+                audioController.StopAll();
+            }
+            else
+            {
+                isPlaying = true;
+                audioController.PlayAll();
+            }
         }
 
         if (isPlaying)
@@ -91,9 +144,42 @@ public class AutomataContainer : MonoBehaviour
             if (tickAccumulator > tickInterval)
             {
                 tickAccumulator -= tickInterval;
-                system.AdvanceGeneration();
-                onGenerationCountChanged.Invoke(system.GenerationCount);
-                system.ForEachCell(SetCellAppearance);
+
+                ++step;
+                if (step >= height)
+                {
+                    step = 0;
+                    system.AdvanceGeneration();
+                    onGenerationCountChanged.Invoke(system.GenerationCount);
+                    system.ForEachCell(SetCellAppearance);
+                }
+
+                onStepChanged.Invoke(step);
+
+                int y = step;
+                for (int x = 0; x < width; x++)
+                {
+                    int cv = system.GetCell(x, y);
+                    ColumnParameter p = colParams[x];
+
+                    switch (p.param)
+                    {
+                        case 0:
+                            break;
+                        case 1:
+                            audioController.SetVolume(p.channel, cv * (1.0f / (float)maxValue));
+                            break;
+                        case 2:
+                            if (cv > maxValue/2)
+                            {
+                                audioController.Retrigger(p.channel);
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
             }
             tickAccumulator += Time.deltaTime;
         }
