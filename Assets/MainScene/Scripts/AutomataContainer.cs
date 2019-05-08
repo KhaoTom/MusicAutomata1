@@ -156,7 +156,7 @@ public class AutomataContainer : MonoBehaviour
 
                 onStepChanged.Invoke(step);
 
-                int y = step;
+                int y = height - 1 - step;
                 for (int x = 0; x < width; x++)
                 {
                     int cv = system.GetCell(x, y);
@@ -188,5 +188,11 @@ public class AutomataContainer : MonoBehaviour
     void SetCellAppearance(int x, int y, int val)
     {
         cellAppearances[x, y].SetAppearance(val);
+    }
+
+    public void SetTickInterval(float val)
+    {
+        tickInterval = val;
+        tickAccumulator = 0.0f;
     }
 }
