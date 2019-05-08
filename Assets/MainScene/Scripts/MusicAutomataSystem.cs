@@ -71,7 +71,7 @@ public class MusicAutomataSystem
                 // cell with two neighbours stays at current value
                 // cell with three neighbours increments by 1
                 // cells that exceed max are set to 0;
-                // otherwise the cell decrements by 2, clamped at 0
+                // cell with more than three neighbours set to 0
                 int cv = cells[x, y];
                 if (count < 2)
                 {
@@ -89,8 +89,7 @@ public class MusicAutomataSystem
                 }
                 else
                 {
-                    cv -= 2;
-                    nextCells[x, y] = cv < 0 ? 0 : cv;
+                    nextCells[x, y] = 0;
                 }
 
             }
