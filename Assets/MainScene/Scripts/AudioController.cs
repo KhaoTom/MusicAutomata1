@@ -63,4 +63,9 @@ public class AudioController : MonoBehaviour
     {
         targetVolumes[id] = vol;
     }
+
+    public int GetNumberOfSources()
+    {
+        return audioSources.Length;
+    }
 }

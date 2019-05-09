@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[System.Serializable]
+public class IntEvent01 : UnityEvent<int> { }
+
 public class AutomataContainer : MonoBehaviour
 {
-    [System.Serializable]
-    public class IntEvent01 : UnityEvent<int> { }
-
     [SerializeField]
     private int width = 16;
 
@@ -34,6 +34,12 @@ public class AutomataContainer : MonoBehaviour
 
     [SerializeField]
     private IntEvent01 onStepChanged = null;
+
+    [SerializeField]
+    private IntEvent01 onColumnsCreated = null;
+
+    [SerializeField]
+    private ColumnParamChanged onUpdateColumnParamDisplay = null;
 
     private float tickAccumulator = 0.0f;
     private int step = 0;
@@ -83,7 +89,10 @@ public class AutomataContainer : MonoBehaviour
             for (int x = 0; x < width; x++)
             {
                 new ColumnParameter();
+                
             }
+
+            onColumnsCreated.Invoke(width);
 
             // TODO: remove this hardcoded nightmare
             colParams[1] = new ColumnParameter(0, 1);
@@ -100,6 +109,12 @@ public class AutomataContainer : MonoBehaviour
 
             colParams[21] = new ColumnParameter(4, 1);
             colParams[23] = new ColumnParameter(4, 2);
+
+            for (int x = 0; x < width; x++)
+            {
+                onUpdateColumnParamDisplay.Invoke(x, colParams[x].channel, colParams[x].param);
+
+            }
         }
     }
 
@@ -194,5 +209,14 @@ public class AutomataContainer : MonoBehaviour
     {
         tickInterval = val;
         tickAccumulator = 0.0f;
+    }
+
+    public void SetColumnParams(int columnId, int channelId, int paramId)
+    {
+        if (columnId < width && channelId < audioController.GetNumberOfSources())
+        {
+            colParams[columnId] = new ColumnParameter(channelId, paramId);
+            onUpdateColumnParamDisplay.Invoke(columnId, colParams[columnId].channel, colParams[columnId].param);
+        }
     }
 }
