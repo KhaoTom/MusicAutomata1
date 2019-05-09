@@ -173,10 +173,7 @@ public class AutomataContainer : MonoBehaviour
                             audioController.SetVolume(p.channel, cv * (1.0f / (float)maxValue));
                             break;
                         case 2:
-                            if (cv > maxValue/2)
-                            {
-                                audioController.Retrigger(p.channel);
-                            }
+                            audioController.SetTime(p.channel, cv * (1.0f / ((float)maxValue + 1 )));
                             break;
                         default:
                             break;

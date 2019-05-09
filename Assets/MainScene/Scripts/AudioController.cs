@@ -54,9 +54,9 @@ public class AudioController : MonoBehaviour
         }
     }
 
-    public void Retrigger(int id)
+    public void SetTime(int id, float fractionOfClipLength)
     {
-        audioSources[id].time = 0.0f;
+        audioSources[id].time = audioSources[id].clip.length * fractionOfClipLength;
     }
 
     public void SetVolume(int id, float vol)
