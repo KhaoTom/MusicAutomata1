@@ -95,20 +95,38 @@ public class AutomataContainer : MonoBehaviour
             onColumnsCreated.Invoke(width);
 
             // TODO: remove this hardcoded nightmare
-            colParams[1] = new ColumnParameter(0, 1);
-            colParams[3] = new ColumnParameter(0, 2);
+            colParams[0] = new ColumnParameter(0, 1);
+            colParams[1] = new ColumnParameter(0, 2);
 
-            colParams[6] = new ColumnParameter(1, 1);
-            colParams[8] = new ColumnParameter(1, 2);
+            colParams[2] = new ColumnParameter(1, 1);
+            colParams[3] = new ColumnParameter(1, 2);
 
-            colParams[11] = new ColumnParameter(2, 1);
-            colParams[13] = new ColumnParameter(2, 2);
+            colParams[4] = new ColumnParameter(2, 1);
+            colParams[5] = new ColumnParameter(2, 2);
 
-            colParams[16] = new ColumnParameter(3, 1);
-            colParams[18] = new ColumnParameter(3, 2);
+            colParams[6] = new ColumnParameter(3, 1);
+            colParams[7] = new ColumnParameter(3, 2);
 
-            colParams[21] = new ColumnParameter(4, 1);
-            colParams[23] = new ColumnParameter(4, 2);
+            colParams[8] = new ColumnParameter(4, 1);
+            colParams[9] = new ColumnParameter(4, 2);
+
+            colParams[10] = new ColumnParameter(5, 1);
+            colParams[11] = new ColumnParameter(5, 2);
+
+            colParams[12] = new ColumnParameter(6, 1);
+            colParams[13] = new ColumnParameter(6, 2);
+
+            colParams[14] = new ColumnParameter(7, 1);
+            colParams[15] = new ColumnParameter(7, 2);
+
+            colParams[16] = new ColumnParameter(8, 1);
+            colParams[17] = new ColumnParameter(8, 2);
+
+            colParams[18] = new ColumnParameter(9, 1);
+            colParams[19] = new ColumnParameter(9, 2);
+
+            colParams[20] = new ColumnParameter(10, 1);
+            colParams[21] = new ColumnParameter(10, 2);
 
             for (int x = 0; x < width; x++)
             {
@@ -178,20 +196,23 @@ public class AutomataContainer : MonoBehaviour
                 for (int x = 0; x < width; x++)
                 {
                     int cv = system.GetCell(x, y);
-                    ColumnParameter p = colParams[x];
-
-                    switch (p.param)
+                    if (cv > 0)
                     {
-                        case 0:
-                            break;
-                        case 1:
-                            audioController.SetVolume(p.channel, cv * (1.0f / (float)maxValue));
-                            break;
-                        case 2:
-                            audioController.SetTime(p.channel, cv * (1.0f / ((float)maxValue + 1 )));
-                            break;
-                        default:
-                            break;
+                        ColumnParameter p = colParams[x];
+
+                        switch (p.param)
+                        {
+                            case 0:
+                                break;
+                            case 1:
+                                audioController.SetVolume(p.channel, cv * (1.0f / (float)maxValue));
+                                break;
+                            case 2:
+                                audioController.SetTime(p.channel, (cv - 1) * (1.0f / ((float)maxValue)));
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 }
 
